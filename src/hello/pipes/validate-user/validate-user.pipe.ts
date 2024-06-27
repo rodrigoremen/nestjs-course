@@ -1,0 +1,19 @@
+import {
+  ArgumentMetadata,
+  BadRequestException,
+  HttpException,
+  Injectable,
+  PipeTransform,
+} from '@nestjs/common';
+
+@Injectable()
+export class ValidateUserPipe implements PipeTransform {
+  transform(value: any, metadata: ArgumentMetadata) {
+    console.log('value', value);
+    const ageNumber = parseInt(value.age.toString(), 10);
+    if (isNaN(ageNumber)) {
+      throw new BadRequestException('Age must be a number');
+    }
+    return { ...value, age: ageNumber};
+  }
+}
